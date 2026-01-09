@@ -1,4 +1,4 @@
-import spark.servlet.SparkApplication;
+import spark.servleet.SparkApplication;
 
 import static spark.Spark.get;
 

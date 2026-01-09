@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven3'
+        jdk 'JDK11'
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/pouapallyindrasenareddy/sparkjava-war-example.git'
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and Tests completed successfully'
+        }
+        failure {
+            echo 'Build or Tests failed'
+        }
+    }
+}
