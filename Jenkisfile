@@ -1,38 +1,21 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK11'
-    }
-
     stages {
 
-        stage('Checkout Code') {
+        stage('Set Maven Path & Build') {
             steps {
-                git 'https://github.com/pouapallyindrasenareddy/sparkjava-war-example.git'
-            }
-        }
+                bat '''
+                set MAVEN_HOME=C:\\Program Files\\Apache\\Maven\\apache-maven-3.9.6
+                set PATH=%MAVEN_HOME%\\bin;%PATH%
 
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean compile'
-            }
-        }
+                echo Maven Home: %MAVEN_HOME%
+                mvn -version
 
-        stage('Run Tests') {
-            steps {
-                sh 'mvn test'
+                mvn clean compile
+                mvn test
+                '''
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build and Tests completed successfully'
-        }
-        failure {
-            echo 'Build or Tests failed'
         }
     }
 }
