@@ -12,7 +12,7 @@ pipeline {                                    // 1  // Defines the start of the 
             steps {                           // 5  // Defines the steps that will be executed in this stage
                 echo "----------- build started ----------"  
                                               // Logs a message indicating the start of the build
-                sh 'mvn clean deploy -Dmaven.test.skip=true'  
+                sh 'mvn clean install'  
                                               // Runs Maven clean and deploy commands, skipping tests
                 echo "----------- build completed ----------"  
                                               // Logs a message indicating the build completion
