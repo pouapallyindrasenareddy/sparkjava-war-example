@@ -1,20 +1,29 @@
-pipeline {                                    // 1  // Defines the start of the Jenkins pipeline block
+pipeline {
 
-    agent any                                 // Specifies the pipeline can run on any available agent
+    agent any
 
-    environment {                             // 2  // Defines environment variables for the pipeline
-        PATH = "/opt/maven/bin:$PATH"         // Adds Maven's path to the system's PATH variable
-    }                                         // 2  // Ends the environment block
+    environment {
+        PATH = "/opt/maven/bin:$PATH"      // Adds Maven to system PATH
+    }
 
-    stages {                                  // 3  // Defines the stages block where multiple stages are declared
+    stages {
 
-        stage("build") {                      // 4  // Creates a stage named 'build'
-            steps {                           // 5  // Defines the steps that will be executed in this stage
-                echo "----------- build started ----------"  
-                                              // Logs a message indicating the start of the build
-                sh 'mvn clean install'  
-                                              // Runs Maven clean and deploy commands, skipping tests
-                echo "----------- build completed ----------"  
-                                              // Logs a message indicating the build completion
-            }                                 // 5  // Ends the steps block for 'build' stage
-        }                                     // 4  // Ends the 'build' stage
+        stage("Checkout") {
+            steps {
+                echo "----------- Checkout Started ----------"
+                checkout scm               // Pulls source code from configured SCM (Git)
+                echo "----------- Checkout Completed ----------"
+            }
+        }
+
+        stage("Build") {
+            steps {
+                echo "----------- Build Started ----------"
+                sh 'mvn clean install'     // Cleans previous builds and installs the package
+                echo "----------- Build Completed ----------"
+            }
+        }
+
+    }
+
+}
